@@ -2,7 +2,7 @@ const EventEmmiter = require('events');
 const addEmmiter = new EventEmmiter();
 const operation = process.argv[0];
 
-module.exports = addVal = (arg1, arg2) => {
+module.exports =function addVal(arg1, arg2) {
     if (operation == 'add') {
         addEmmiter.emit('connected', 'connection is happened', arg1 + arg2);
     } else {
