@@ -10,8 +10,13 @@ function slow() {
     performance.mark('start');
     for (let i = 0; i < 300000; i++) {
         arr.push(i);
+<<<<<<< HEAD
         if (indivisible_number(i)) {
             count = indivisible_number();
+=======
+        if (indivisible_number(i) == 0) {
+            count++;
+>>>>>>> main
         }
         performance.mark('end');
         performance.measure('slow', 'start', 'end')
@@ -32,10 +37,24 @@ performanceObserver.observe({ entryTypes: ['measure', 'function'] });
 function slow2() {
     performance.mark('start');
     for (let i = 0; i < arr.length / coreSize; i++) {
+<<<<<<< HEAD
         subArray[i] = arr.slice((i * coreSize), (i * coreSize) + coreSize)
     }
     performance.mark('end');
     performance.measure('slow2', 'start', 'end')
 }
+=======
+        const worker = new Worker('./worker.js')
+        worker.on('message', (message) => {
+            console.log(`Received message from worker: ${message}`);
+        });
+        worker.postMessage(`Hello from the main thread!`);
+    }
+    subArray[i] = arr.slice((i * coreSize), (i * coreSize) + coreSize)
+}
+performance.mark('end');
+performance.measure('slow2', 'start', 'end')
+
+>>>>>>> main
 slow();
 slow2()
