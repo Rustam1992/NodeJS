@@ -1,15 +1,6 @@
-const EventEmmiter = require('events');
-const multiplyEmmiter = new EventEmmiter();
-const operation = process.argv[0];
+const emitter=require('./event_emmiter_index.js');
+function multiplyVal(operator1, operator2) {
+    emitter.emit(`value is `+operator1 * operator2);
 
-module.exports =function multiplyVal (arg1, arg2) {
-    if (operation == 'multiply') {
-        multiplyEmmiter.emit('connected', 'connection is happened', arg1 * arg2);
-    } else {
-        multiplyEmmiter.on('error', (err) => {
-            console.log(`Не верные данные: ${err.message}`)
-            multiplyEmmiter.emit('error', new Error('значение не цифра'))
-        });
-    }
 }
-multiplyEmmiter.on('connected', multiplyVal)
+export { multiplyVal };

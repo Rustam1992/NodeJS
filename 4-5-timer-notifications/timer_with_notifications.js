@@ -6,4 +6,4 @@ title: 'Timer Alert',
 message: 'Your timer is up!',
 sound: true
 });
-}, 30000); //30 seconds
+}, '0d 0h 1m'); 

@@ -4,5 +4,5 @@ module.exports = function indivisible_number(n) {
     if (n % 3 == 0) {
         return count++;
     }
-
 }
+parentPort.postMessage(indivisible_number(workerData));
