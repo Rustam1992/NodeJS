@@ -22,24 +22,7 @@ function getVal(){
     }
     emitter.emit(answ);
 }
-// function getResult() {
-//     let res = 0;
-//     switch (operation) {
-//         case 'add':
-//             emitter.on(res = addVal(arg1, arg2));
-//             break;
-//         case 'divide':
-//             emitter.on(res = divideVal(arg1, arg2));
-//             break;
-//         case 'multiply':
-//             emitter.on(res = multiplyVal(arg1, arg2));
-//             break;
-//         case 'substract':
-//             emitter.on(res = substractVal(arg1, arg2));
-//             break;
-//     }
-//     return res;
-// }
+
 emmitter.emit(getResult);
 try {
     console.log('результат операции' + getResult(operation, arg1, arg2));
