@@ -1,6 +1,6 @@
 const { performance } = require('perf_hooks');
 const indivisible_number = require("./get_indivisible_number");
-const worker = new Worker('./worker.js')
+const { Worker } = reqiure('worker_threads');
 const arr = [];
 let count = 0;
 const coreSize = 8;
@@ -15,12 +15,13 @@ function slow() {
         }
         performance.mark('end');
         performance.measure('slow', 'start', 'end')
-        subArray.push(arr.slice((arr.length * coreSize), (i.length * coreSize) + coreSize))
         console.log(performance.getEntriesByName('slow'))
         console.log(count);
         console.log(arr);
     }
+    subArray.push(arr.slice((arr.length * coreSize), (arr.length * coreSize) + coreSize));
 }
+
 const performanceObserver = new performance.performanceObserver((items, observer) => {
     console.log(items.getEntries());
     const entry = items.getEntriesByName('slow2'.pop());
@@ -29,16 +30,25 @@ const performanceObserver = new performance.performanceObserver((items, observer
 })
 performanceObserver.observe({ entryTypes: ['measure', 'function'] });
 
-function slow2() {
-    worker.on('message', (message) => {
-        console.log(`Received message from worker: ${message}`);
-    });
-    performance.mark('start');
-    for (let i = 0; i < arr.length / coreSize; i++) {
-        subArray[i] = arr.slice((i * coreSize), (i * coreSize) + coreSize)
-    }
-    performance.mark('end');
-    performance.measure('slow2', 'start', 'end')
+function slow2(array) {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./get_indivisible_number.js', {
+            workerData: {
+                array
+            }
+        });
+        worker.on('message', (msg) => {
+            console.log(worker.threadId);
+            resolve(msg)
+        })
+        worker.on('error', (err) => {
+            reject(err)
+        })
+        worker.on('exit', () => {
+            console.log('завершил работу');
+
+        })
+    })
 }
 slow();
-slow2()
+slow2(subArray);
